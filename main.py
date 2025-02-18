@@ -20,12 +20,20 @@ class MapApp:
         img = pygame.image.load(BytesIO(bytes_img))
         self.screen.blit(img, (0, 0))
 
+    def process_keys(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_PAGEUP:
+                self.z = min(21, self.z + 1)
+            if event.key == pygame.K_PAGEDOWN:
+                self.z = max(1, self.z - 1)
+
     def run(self):
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit(0)
+                self.process_keys(event)
 
             pygame.display.flip()
 
