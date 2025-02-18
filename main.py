@@ -8,6 +8,9 @@ from distance import lonlat_distance
 
 
 class MapApp:
+    DELTA_LON = 200
+    DELTA_LAT = 90
+
     def __init__(self, size):
         pygame.init()
         self.screen = pygame.display.set_mode(size)
@@ -26,6 +29,15 @@ class MapApp:
                 self.z = min(21, self.z + 1)
             if event.key == pygame.K_PAGEDOWN:
                 self.z = max(1, self.z - 1)
+            if event.key == pygame.K_LEFT:
+                self.coord[0] = (self.coord[0] - MapApp.DELTA_LON * 2 ** -self.z + 180) % 360 - 180
+            if event.key == pygame.K_RIGHT:
+                self.coord[0] = (self.coord[0] + MapApp.DELTA_LON * 2 ** -self.z + 180) % 360 - 180
+            if event.key == pygame.K_UP:
+                self.coord[1] = min((self.coord[1] + MapApp.DELTA_LAT * 2 ** -self.z), 85)
+            if event.key == pygame.K_DOWN:
+                self.coord[1] = max((self.coord[1] - MapApp.DELTA_LAT * 2 ** -self.z), -85)
+            self.update_map()
 
     def run(self):
         while True:
