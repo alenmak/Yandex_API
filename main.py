@@ -65,7 +65,7 @@ class MapApp:
 
     def search(self, query):
         self.coord = list(map(float, get_toponym_coord(get_toponym(query))))
-        self.point = self.coord
+        self.point = self.coord.copy()
 
     def update_map(self):
         params = dict(
